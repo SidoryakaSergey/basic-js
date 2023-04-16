@@ -20,39 +20,64 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 class VigenereCipheringMachine {
-  constructor(straight) {
+  constructor(straight = true) {
     this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     this.numberAlph = {};
-
+    this.straight = straight;
     for (let i = 0; i < this.alphabet.length; i++) {
       this.numberAlph[this.alphabet[i]] = i;
     }
   }
-  encrypt(mesage, key) {
-    let encryptMessage = '';
-
-    for (let i = 0; i < mesage.length; i++) {
-      encryptMessage +=
-        this.alphabet[
-          (this.numberAlph[mesage[i]] + this.numberAlph[key[i % key.length]]) %
-            this.alphabet.length
-        ];
+  encrypt(message, key) {
+    if (!message || !key) {
+      throw new Error('Incorrect arguments!');
     }
-    return encryptMessage;
+    message = message.toUpperCase();
+    key = key.toUpperCase();
+    let encryptMessage = '';
+    let keyIndex = 0;
+    for (let i = 0; i < message.length; i++) {
+      if (this.alphabet.includes(message[i])) {
+        encryptMessage +=
+          this.alphabet[
+            (this.numberAlph[message[i]] +
+              this.numberAlph[key[keyIndex % key.length]]) %
+              this.alphabet.length
+          ];
+        keyIndex++;
+      } else {
+        encryptMessage += message[i];
+      }
+    }
+    return this.straight
+      ? encryptMessage
+      : encryptMessage.split('').reverse().join('');
   }
-  decrypt() {
-    let encryptMessage = '';
-
-    for (let i = 0; i < mesage.length; i++) {
-      encryptMessage +=
-        this.alphabet[
-          (this.numAlph[mesage[i]] -
-            this.numberAlph[key[i % key.length]] +
-            this.alphabet.length) %
-            this.alphabet.length
-        ];
+  decrypt(message, key) {
+    if (!message || !key) {
+      throw new Error('Incorrect arguments!');
     }
-    return encryptMessage;
+    message = message.toUpperCase();
+    key = key.toUpperCase();
+    let encryptMessage = '';
+    let keyIndex = 0;
+    for (let i = 0; i < message.length; i++) {
+      if (this.alphabet.includes(message[i])) {
+        encryptMessage +=
+          this.alphabet[
+            (this.numberAlph[message[i]] -
+              this.numberAlph[key[keyIndex % key.length]] +
+              this.alphabet.length) %
+              this.alphabet.length
+          ];
+        keyIndex++;
+      } else {
+        encryptMessage += message[i];
+      }
+    }
+    return this.straight
+      ? encryptMessage
+      : encryptMessage.split('').reverse().join('');
   }
 }
 

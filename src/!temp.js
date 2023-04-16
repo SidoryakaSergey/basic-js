@@ -1,82 +1,113 @@
-function countCats(matrix) {
-  const catEars = '^^';
-  let cats = 0;
-  for (let row of matrix) {
-    cats += row.filter(el => {
-      return el === catEars;
-    }).length;
+class VigenereCipheringMachine {
+  constructor(straight = true) {
+    this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    this.numberAlph = {};
+    this.straight = straight;
+    for (let i = 0; i < this.alphabet.length; i++) {
+      this.numberAlph[this.alphabet[i]] = i;
+    }
   }
-  return cats;
+  encrypt(message, key) {
+    if (!message || !key) {
+      throw new Error('Incorrect arguments!');
+    }
+    message = message.toUpperCase();
+    key = key.toUpperCase();
+    let encryptMessage = '';
+    console.log('this.straight =', this.straight);
+    for (let i = 0; i < message.length; i++) {
+      if (this.alphabet.includes(message[i])) {
+        encryptMessage +=
+          this.alphabet[
+            (this.numberAlph[message[i]] +
+              this.numberAlph[key[i % key.length]]) %
+              this.alphabet.length
+          ];
+      } else {
+        encryptMessage += message[i];
+      }
+    }
+    return this.straight
+      ? encryptMessage
+      : encryptMessage.split('').reverse().join('');
+  }
+  decrypt(message, key) {
+    if (!message || !key) {
+      throw new Error('Incorrect arguments!');
+    }
+    message = message.toUpperCase();
+    key = key.toUpperCase();
+    let encryptMessage = '';
+    for (let i = 0; i < message.length; i++) {
+      if (this.alphabet.includes(message[i])) {
+        encryptMessage +=
+          this.alphabet[
+            (this.numberAlph[message[i]] -
+              this.numberAlph[key[i % key.length]] +
+              this.alphabet.length) %
+              this.alphabet.length
+          ];
+      } else {
+        encryptMessage += message[i];
+      }
+    }
+    return this.straight
+      ? encryptMessage
+      : encryptMessage.split('').reverse().join('');
+  }
 }
 
-function createDreamTeam(members) {
-  const ABC = 'QWERTYUIOPASDFGHJKLZXCVBNM';
-  const arrABC = ABC.split('');
+// const code = new VigenereCipheringMachine();
 
-  const first = members.map(el => {
-    return el.trim().toUpperCase()[0];
+// console.log(code.encrypt('attack at dawn!', 'alphonse'));
+// console.log(code.decrypt('AEIHQX ET SHKA!', 'alphonse'));
+
+function transform(arr) {
+  if (!Array.isArray(arr)) {
+    throw new Error('Incorrect arguments!');
+  }
+  const newArr = [...arr];
+  let index = 0;
+  do {
+    if (isNaN(arr[index])) {
+      switch (arr[index]) {
+        case '--discard-next':
+          if (index === arr.length - 1) {
+            newArr[index] = '';
+          } else {
+            newArr[index] = '';
+            newArr[index + 1] = '';
+          }
+          break;
+        case '--discard-prev':
+          if (index === 0) {
+            newArr[index] = '';
+          } else {
+            newArr[index] = '';
+            newArr[index - 1] = '';
+          }
+          break;
+        case '--double-next':
+          if (index === arr.length - 1) {
+            newArr[index] = '';
+          } else {
+            newArr[index] = newArr[index + 1];
+          }
+          break;
+        case '--double-prev':
+          if (index === 0) {
+            newArr[index] = '';
+          } else {
+            newArr[index] = newArr[index - 1];
+          }
+          break;
+      }
+    }
+    index++;
+  } while (index < arr.length);
+  return newArr.filter(el => {
+    return el !== '';
   });
-
-  nameComand = first
-    .filter(el => {
-      return arrABC.includes(el);
-    })
-    .sort()
-    .join('');
-  return nameComand.length === 0 ? false : nameComand;
 }
 
-// console.log(
-//   createDreamTeam([
-//     '   William Alston ',
-//     ' Paul Benacerraf',
-//     '  Ross Cameron',
-//     '       Gilles Deleuze',
-//     '  Arda Denkel ',
-//     '  Michael Devitt',
-//     '  Kit Fine',
-//     ' Nelson Goodman',
-//     'David Kolb',
-//     '   Saul Kripke',
-//     '  Trenton Merricks',
-//     '  Jay Rosenberg',
-//   ])
-// );
-
-function getSeason(date) {
-  const month = [
-    'winter',
-    'winter',
-    'spring',
-    'spring',
-    'spring',
-    'summer',
-    'summer',
-    'summer',
-    'autumn',
-    'autumn',
-    'autumn',
-    'winter',
-  ];
-
-  if (!date) {
-    return 'Unable to determine the time of year!';
-  }
-
-  // Проверка наличия всех необходимых свойств у переданного объекта
-  const dateProperties = Object.getOwnPropertyNames(Date.prototype);
-  const fakeDateProperties = Object.getOwnPropertyNames(date);
-  const hasAllProperties =
-    fakeDateProperties.every(property => dateProperties.includes(property)) &&
-    date instanceof Date &&
-    Object.prototype.toString.call(date) === '[object Date]';
-
-  // Проверка с помощью instanceof
-  if (!hasAllProperties) {
-    throw new Error('Invalid date!');
-  }
-
-  return month[date.getMonth()];
-}
-
-console.log(getSeason(new Date(2019, 11, 22, 23, 45, 11, 500)));
+console.log(transform([1, '--discard-next', 2, 3, '--discard-next', 5, 6]));
