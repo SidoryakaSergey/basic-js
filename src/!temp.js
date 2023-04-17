@@ -172,15 +172,73 @@ function repeater(str, options) {
   return result;
 }
 
-console.log(
-  repeater(9.234, {
-    repeatTimes: 4,
-    separator: '||',
-    addition: { a: 5 },
-    additionRepeatTimes: 3,
-    additionSeparator: '&&',
-  })
-);
+// console.log(
+//   repeater(9.234, {
+//     repeatTimes: 4,
+//     separator: '||',
+//     addition: { a: 5 },
+//     additionRepeatTimes: 3,
+//     additionSeparator: '&&',
+//   })
+// );
 
 // '9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]'
 //  9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]
+
+class DepthCalculator {
+  constructor() {
+    this.maxDepth = 1;
+  }
+
+  calculateDepth(arr, depth = 1) {
+    for (let el of arr) {
+      if (Array.isArray(el)) {
+        const newDepth = depth + 1;
+        if (newDepth > this.maxDepth) {
+          this.maxDepth = newDepth;
+        }
+        this.calculateDepth(el, newDepth);
+      }
+    }
+    const result = this.maxDepth;
+    if (depth === 1) {
+      this.maxDepth = 1;
+    }
+    return result;
+  }
+}
+
+const d = new DepthCalculator();
+console.log(
+  d.calculateDepth([
+    1,
+    [8, [[]]],
+    [
+      [
+        [
+          [
+            [
+              [
+                [
+                  [
+                    [
+                      [[[[[[[[[[[[[[[[[[[[[]]]]]]], []]]], []]]]]]]]], []]]],
+                      [],
+                    ],
+                  ],
+                ],
+              ],
+            ],
+          ],
+        ],
+      ],
+    ],
+    2,
+    3,
+    [8, [[[[[[[[[[[[[[]]]]]]]]]]]]]]],
+    [8, [[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]],
+    4,
+    5,
+    ['6575', ['adas', ['dfg', [0]]]],
+  ])
+);
