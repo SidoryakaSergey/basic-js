@@ -264,4 +264,57 @@ function deleteDigit(n) {
   return parseInt(arr.join(''));
 }
 
-console.log(deleteDigit(1001));
+// console.log(deleteDigit(1001));
+
+function encodeLine(str) {
+  let arr = str.split('');
+  let prefix = 1;
+  let result = '';
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === arr[i + 1]) {
+      prefix++;
+    } else if (prefix !== 1) {
+      result += prefix.toString() + arr[i];
+      prefix = 1;
+    } else {
+      result += arr[i];
+    }
+  }
+  return result;
+}
+
+// console.log(encodeLine('aaaatttt'));
+
+function getMatrixElementsSum(matrix) {
+  let summ = 0;
+  for (let i = 0; i < matrix.length; i++) {
+    for (let k = 0; k < matrix[0].length; k++) {
+      if (i === 0) {
+        summ += matrix[0][k];
+      } else if (matrix[i - 1][k] !== 0) {
+        summ += matrix[i][k];
+      }
+    }
+  }
+  return summ;
+}
+
+// console.log(
+//   getMatrixElementsSum([
+//     [1, 2, 3, 4],
+//     [0, 5, 0, 0],
+//     [2, 0, 3, 3],
+//   ])
+// );
+
+function sortByHeight(arr) {
+  return arr.sort((a, b) => {
+    if (a === -1) {
+      return false;
+    } else {
+      return a - b;
+    }
+  });
+}
+
+console.log(sortByHeight([-1, 150, 190, 170, -1, -1, 160, 180]));

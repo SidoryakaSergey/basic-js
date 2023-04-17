@@ -12,15 +12,6 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function deleteDigit(n) {
-  // let numStr = n.toString();
-  // let maxNum = 0;
-  // for (let i = 0; i < numStr.length; i++) {
-  //   let newNum = parseInt(numStr.slice(0, i) + numStr.slice(i + 1));
-  //   if (newNum > maxNum) {
-  //     maxNum = newNum;
-  //   }
-  // }
-  // return maxNum;
   let arr = n.toString().split('');
   let min = Math.min(...arr);
 
