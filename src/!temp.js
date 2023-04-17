@@ -129,6 +129,8 @@ function repeater(str, options) {
     return str;
   }
 
+  str = str.toString();
+
   if (options.hasOwnProperty('repeatTimes')) {
     repeatTimes = options.repeatTimes;
   }
@@ -136,7 +138,7 @@ function repeater(str, options) {
     separator = options.separator;
   }
   if (options.hasOwnProperty('addition')) {
-    addition = options.addition;
+    addition = options.addition.toString();
   }
   if (options.hasOwnProperty('additionRepeatTimes')) {
     additionRepeatTimes = options.additionRepeatTimes;
@@ -144,9 +146,8 @@ function repeater(str, options) {
   if (options.hasOwnProperty('additionSeparator')) {
     additionSeparator = options.additionSeparator;
   }
-  console.log('str= ', str);
-  console.log('separator=', separator);
   for (let i = 0; i < repeatTimes; i++) {
+    console.log(i);
     add = '';
     for (let j = 0; j < additionRepeatTimes; j++) {
       if (j === additionRepeatTimes - 1) {
@@ -172,14 +173,14 @@ function repeater(str, options) {
 }
 
 console.log(
-  repeater('i7v9VAiIYf', {
-    repeatTimes: 1,
-    separator: 'EJVVKb7ADk',
-    addition: 'FeBa2b7RLL',
-    additionRepeatTimes: 2,
-    additionSeparator: 'TEn9kEcy0M',
+  repeater(9.234, {
+    repeatTimes: 4,
+    separator: '||',
+    addition: { a: 5 },
+    additionRepeatTimes: 3,
+    additionSeparator: '&&',
   })
 );
 
-// 'i7v9VAiIYfFeBa2b7RLLTEn9kEcy0MFeBa2b7RLL'
-//  i7v9VAiIYfFeBa2b7RLLTEn9kEcy0MFeBa2b7RLL
+// '9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]'
+//  9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]||9.234[object Object]&&[object Object]&&[object Object]

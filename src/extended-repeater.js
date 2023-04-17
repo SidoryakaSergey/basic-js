@@ -32,6 +32,8 @@ function repeater(str, options) {
     return str;
   }
 
+  str = str.toString();
+
   if (options.hasOwnProperty('repeatTimes')) {
     repeatTimes = options.repeatTimes;
   }
@@ -39,7 +41,7 @@ function repeater(str, options) {
     separator = options.separator;
   }
   if (options.hasOwnProperty('addition')) {
-    addition = options.addition;
+    addition = options.addition.toString();
   }
   if (options.hasOwnProperty('additionRepeatTimes')) {
     additionRepeatTimes = options.additionRepeatTimes;
