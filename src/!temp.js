@@ -249,4 +249,19 @@ function getCommonCharacterCount(s1, s2) {
   }).length;
 }
 
-console.log(getCommonCharacterCount('aabcc', 'adcaa'));
+// console.log(getCommonCharacterCount('aabcc', 'adcaa'));
+
+function deleteDigit(n) {
+  let arr = n.toString().split('');
+  let min = Math.min(...arr);
+  console.log(min);
+  if (arr[0] < arr[1]) {
+    arr.splice(0, 1);
+    console.log('object');
+  } else {
+    arr.splice(arr.indexOf(min.toString()), 1);
+  }
+  return parseInt(arr.join(''));
+}
+
+console.log(deleteDigit(1001));
