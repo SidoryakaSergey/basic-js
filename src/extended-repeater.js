@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../extensions/index.js');
+const { NotImplementedError } = require("../extensions/index.js");
 
 /**
  * Create a repeating string based on the given parameters
@@ -15,63 +15,24 @@ const { NotImplementedError } = require('../extensions/index.js');
  * => 'STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS'
  *
  */
-function repeater(str, options) {
-  if (!str) {
-    throw new Error('Incorrect arguments!');
-  }
-  let result = '';
-  let add = '';
+function repeater(str, options = {}) {
+  str = String(str);
+  const repeatTimes = options.repeatTimes || 1;
+  const separator = options.separator || "+";
+  const addition = options.hasOwnProperty("addition")
+    ? String(options.addition)
+    : "";
+  const additionRepeatTimes = options.additionRepeatTimes || 1;
+  const additionSeparator = options.additionSeparator || "|";
 
-  let repeatTimes = 0;
-  let separator = '+';
-  let addition = '';
-  let additionRepeatTimes = 0;
-  let additionSeparator = '|';
+  const additionPart = Array(additionRepeatTimes)
+    .fill(addition)
+    .join(additionSeparator);
 
-  if (!options) {
-    return str;
-  }
+  const result = Array(repeatTimes)
+    .fill(str + additionPart)
+    .join(separator);
 
-  str = str.toString();
-
-  if (options.hasOwnProperty('repeatTimes')) {
-    repeatTimes = options.repeatTimes;
-  }
-  if (options.hasOwnProperty('separator')) {
-    separator = options.separator;
-  }
-  if (options.hasOwnProperty('addition')) {
-    addition = options.addition.toString();
-  }
-  if (options.hasOwnProperty('additionRepeatTimes')) {
-    additionRepeatTimes = options.additionRepeatTimes;
-  }
-  if (options.hasOwnProperty('additionSeparator')) {
-    additionSeparator = options.additionSeparator;
-  }
-  for (let i = 0; i < repeatTimes; i++) {
-    console.log(i);
-    add = '';
-    for (let j = 0; j < additionRepeatTimes; j++) {
-      if (j === additionRepeatTimes - 1) {
-        add += addition;
-      } else {
-        add += addition + additionSeparator;
-      }
-      console.log('add = ', add);
-    }
-    if (i === repeatTimes - 1) {
-      result += str + add;
-    } else {
-      result += str + add + separator;
-    }
-  }
-  if (repeatTimes === 0) {
-    result += str;
-  }
-  if (additionRepeatTimes === 0) {
-    result += addition;
-  }
   return result;
 }
 
